@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # Private data
-login/creds.txt
+login/creds.*
