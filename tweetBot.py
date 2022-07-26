@@ -54,6 +54,8 @@ class tpyData:
 def main():
     clientInfo = tpyData()
 
+    searchTerms = "covid -is:retweet"
+
     f = open("./login/creds.txt", "r")
     clientInfo.set_API_KEY(f.readline().strip())
     clientInfo.set_API_SECRET_KEY(f.readline().strip())
