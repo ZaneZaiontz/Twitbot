@@ -16,14 +16,15 @@ from csv import reader
 # reading within the __init__ rather than calling
 # and storing in main. 
 class tpyData:
-    # def __init__(self) -> None:
-    API_KEY = ""
-    API_SECRET_KEY = ""
-    BEARER_TOKEN = ""
-    ACCESS_TOKEN = ""
-    ACCESS_TOKEN_SECRET = ""
-    
-    queryTweets = ""
+    def __init__(self, query):
+        self.queryTweets = query
+
+    queryTweets = ''
+    API_KEY = ''
+    API_SECRET_KEY = ''
+    BEARER_TOKEN = ''
+    ACCESS_TOKEN = ''
+    ACCESS_TOKEN_SECRET = ''
 
     def set_API_KEY(self, API):
         self.API_KEY = API
@@ -52,19 +53,20 @@ class tpyData:
         return self.queryTweets
 
 def main():
-    clientInfo = tpyData()
-
-    searchTerms = "covid -is:retweet"
-
+    daysBack = 1
+    searchTerms = "gun -is:retweet"
+    clientInfo = tpyData(searchTerms)
+    
     f = open("./login/creds.txt", "r")
-    clientInfo.set_API_KEY(f.readline().strip())
-    clientInfo.set_API_SECRET_KEY(f.readline().strip())
-    clientInfo.set_BEARER_TOKEN(f.readline().strip())
-    clientInfo.set_ACCESS_TOKEN(f.readline().strip())
-    clientInfo.set_ACCESS_TOKEN_SECRET(f.readline().strip())
+    clientInfo.set_API_KEY(f.readline().strip('\n'))
+    clientInfo.set_API_SECRET_KEY(f.readline().strip('\n'))
+    clientInfo.set_BEARER_TOKEN(f.readline().strip('\n'))
+    clientInfo.set_ACCESS_TOKEN(f.readline().strip('\n'))
+    clientInfo.set_ACCESS_TOKEN_SECRET(f.readline().strip('\n'))
     f.close()
 
-    search.pullTweets(clientInfo)
+    # Dont run this so we dont go over our limit
+    # search.pullTweets(clientInfo, daysBack)
     
 
 if __name__ == "__main__":

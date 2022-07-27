@@ -1,10 +1,41 @@
 import tweepy as tp
-from tweetBot import tpyData
+import csv
+from datetime import datetime, timedelta
 
-def pullTweets(clientInfo):
-    
-    client = tp.Client(clientInfo.get_BEARER_TOKEN)
-    # print("{}\n{}\n{}\n{}\n{}".format(clientInfo.get_API_KEY(), clientInfo.get_API_SECRET_KEY(), clientInfo.get_BEARER_TOKEN(), clientInfo.get_ACCESS_TOKEN(), clientInfo.get_ACCESS_TOKEN_SECRET()))    
-    
+def pullTweets(clientInfo, prevDays):
+    client = tp.Client(bearer_token=clientInfo.get_BEARER_TOKEN())   
 
-    client.search_recent_tweets(query=clientInfo.get_query_tweets())
+    # [attachments,author_id,context_annotations,conversation_id,created_at,entities,geo,id,in_reply_to_user_id,lang,non_public_metrics,organic_metrics,possibly_sensitive,promoted_metrics,public_metrics,referenced_tweets,reply_settings,source,text,withheld]
+
+    # Things to add to dataset: 
+    # - Time of tweet creation
+    # - Source of where tweet came from
+
+    fileName = "dataset"
+    with open('data/%s.csv' % (fileName), 'w', encoding="utf-8") as file:
+        w = csv.writer(file)
+        w.writerow(['tweet_id', 
+                    'author_id', 
+                    'text', 
+                    'retweet_count', 
+                    'reply_count', 
+                    'like_count', 
+                    'quote_count'])
+        try:
+            for tweet in tp.Paginator(  client.search_recent_tweets, 
+                                        query=clientInfo.get_query_tweets(), 
+                                        max_results=100, 
+                                        tweet_fields=["public_metrics", "source", "author_id"]).flatten(limit=10000):
+                w.writerow([tweet.id, 
+                            tweet.author_id, 
+                            tweet.text, 
+                            tweet.public_metrics['retweet_count'], 
+                            tweet.public_metrics['reply_count'], 
+                            tweet.public_metrics['like_count'], 
+                            tweet.public_metrics['quote_count']])
+        except tp.RateLimitError as exc:
+            print('Rate limit hit!!!')
+
+
+if __name__ == "__main__":
+    print("no")
