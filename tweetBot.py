@@ -66,7 +66,7 @@ def main():
     f.close()
 
     # Dont run this so we dont go over our limit
-    # search.pullTweets(clientInfo, daysBack)
+    search.pullTweets(clientInfo, daysBack)
     
 def processData():
     pass

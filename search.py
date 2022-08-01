@@ -11,12 +11,13 @@ def pullTweets(clientInfo, prevDays):
     # - Time of tweet creation
     # - Source of where tweet came from
 
-    fileName = "dataset"
-    with open('data/%s.csv' % (fileName), 'w', encoding="utf-8") as file:
+
+    fileName = "dataset2"
+    with open('data/%s.csv' % (fileName), 'w', encoding="ascii", errors="ignore") as file:
         w = csv.writer(file)
         w.writerow(['tweet_id', 
                     'author_id', 
-                    'text', 
+                    # 'text', 
                     'retweet_count', 
                     'reply_count', 
                     'like_count', 
@@ -25,10 +26,10 @@ def pullTweets(clientInfo, prevDays):
             for tweet in tp.Paginator(  client.search_recent_tweets, 
                                         query=clientInfo.get_query_tweets(), 
                                         max_results=100, 
-                                        tweet_fields=["public_metrics", "source", "author_id"]).flatten(limit=10000):
+                                        tweet_fields=["public_metrics", "source", "author_id"]).flatten(limit=1000):
                 w.writerow([tweet.id, 
                             tweet.author_id, 
-                            tweet.text, 
+                            # tweet.text.encode("ascii"), 
                             tweet.public_metrics['retweet_count'], 
                             tweet.public_metrics['reply_count'], 
                             tweet.public_metrics['like_count'], 
