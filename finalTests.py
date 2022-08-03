@@ -7,7 +7,7 @@ def main():
 
     #setItUp = setItUp.filter(lambda x: )
 
-    data = sc.textFile("hdfs://group10-1:54310/projectData/")
+    data = sc.textFile("data/dataset.csv")
 
     splitdata = data.mapPartitions(lambda x: reader(x))
     
