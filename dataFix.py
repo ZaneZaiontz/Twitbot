@@ -24,7 +24,7 @@ def main():
             #     if broken == False:
             #         broken = True
             #         continue
-            #     print("fuck at {} with {}".format((i),ord(c)))
+            #     print("Error at {} with {}".format((i),ord(c)))
             #     break
             i += 1
 

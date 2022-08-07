@@ -1,20 +1,6 @@
 import os, tweepy, search
 from csv import reader
 
-# 
-'''
-# TODO:
-#   Create dev account and setup tweepy
-#   -   Gather data over current trending tweets from the last 24 hours
-#   -   Store data in CSV / prepare
-#   -   
-#   -
-'''
-
-
-# Might be better just to handle the data by
-# reading within the __init__ rather than calling
-# and storing in main. 
 class tpyData:
     def __init__(self, query):
         self.queryTweets = query
@@ -53,7 +39,6 @@ class tpyData:
         return self.queryTweets
 
 def main():
-    daysBack = 1
     searchTerms = "gun -is:retweet"
     clientInfo = tpyData(searchTerms)
     
@@ -66,10 +51,7 @@ def main():
     f.close()
 
     # Dont run this so we dont go over our limit
-    search.pullTweets(clientInfo, daysBack)
+    # search.pullTweets(clientInfo, daysBack)
     
-def processData():
-    pass
-
 if __name__ == "__main__":
     main()
